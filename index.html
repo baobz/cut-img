@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="lib/dialog/default.css" />
+		
+		<script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
+		<script src="lib/dialog/jquery.artDialog.js"></script>
+		<script src="lib/dialog/iframeTools.js"></script>
+		
+		<script src="js/common.js"></script>
+	</head>
+	<body>
+		<label>头像：</label>
+		<span class="page-info">
+			<img style="width: 200px; height: 200px;" src="img/user.jpg" alt="" />
+			<span class="btn hr-add-upload"><i class="iconfont icon-export"></i> 上传头像
+				<input type="file" class="upload-img" id="input" />
+				<input type="hidden" value="" id="upload-val" />
+			</span>
+    </span>
+		
+		<script>
+			
+			/*上传图片*/
+			$('.upload-img').on('change',function() {
+				var ieVersion = Number(document.documentMode);
+				if(ieVersion < 10) {
+					$(this).select();
+				    $(this).blur();
+					//获取绝对路径
+				    var src = document.selection.createRange().text;
+				    artDialog.data("img_data", src);
+				} else {
+					var file = $(this)[0].files[0];
+					if(URL.createObjectURL) {
+						var src = URL.createObjectURL(file);
+						artDialog.data("img_data", src);
+					}
+				}
+		
+				$(this).parent().prev().attr('src', src);
+				var img = $(this).next().val(src);
+				if(img != null) {
+					art.dialog.open( "dialog_iframe/image-cropper/demo/standalone.html",{title: '上传头像', width: 800, height: 600, lock: true});
+//					iframeAlert("../dialog_iframe/image-cropper/demo/standalone.html", "上传头像", 800, 600);
+				}
+			});
+			
+		</script>
+	</body>
+</html>
